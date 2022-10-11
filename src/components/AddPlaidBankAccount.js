@@ -116,9 +116,11 @@ class AddPlaidBankAccount extends React.Component {
      */
     selectAccount(plaidAccountID) {
         const selectedPlaidBankAccount = _.findWhere(this.getPlaidBankAccounts(), {plaidAccountID});
-        selectedPlaidBankAccount.bankName = this.props.plaidData.bankName;
-        selectedPlaidBankAccount.plaidAccessToken = this.props.plaidData.plaidAccessToken;
-        this.props.onSelect({selectedPlaidBankAccount});
+        if (selectedPlaidBankAccount) {
+            selectedPlaidBankAccount.bankName = this.props.plaidData.bankName;
+            selectedPlaidBankAccount.plaidAccessToken = this.props.plaidData.plaidAccessToken;
+            this.props.onSelect({selectedPlaidBankAccount});
+        }
     }
 
     render() {
@@ -129,6 +131,7 @@ class AddPlaidBankAccount extends React.Component {
         }));
         const institutionName = lodashGet(this.props, 'plaidData.institution.name', '');
         const selectedPlaidBankAccount = lodashGet(this.props, 'plaidData.selectedPlaidBankAccount', {});
+        const selectedPlaidBankAccountExist = _.filter(selectedPlaidBankAccount, account => _.find(plaidBankAccounts, item => item.plaidAccountID === account.plaidAccountID));
         const {icon, iconSize} = getBankIcon();
 
         // Plaid Link view
@@ -191,7 +194,7 @@ class AddPlaidBankAccount extends React.Component {
                             value: '',
                             label: this.props.translate('bankAccount.chooseAnAccount'),
                         } : {}}
-                        value={selectedPlaidBankAccount.plaidAccountID}
+                        value={selectedPlaidBankAccountExist.plaidAccountID}
                     />
                 </View>
             </View>
