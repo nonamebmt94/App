@@ -236,7 +236,7 @@ function PreferredLocale_Update(parameters) {
  * @returns {Promise}
  */
 function RejectTransaction(parameters) {
-    const commandName = 'RejectTransaction';
+    const commandName = 'CancelIOUTransaction';
     requireParameters(['reportID', 'transactionID'], parameters, commandName);
     return Network.post(commandName, parameters);
 }
